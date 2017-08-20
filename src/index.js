@@ -88,11 +88,22 @@ class Game extends React.Component {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
+    console.log(this.state.history);
 
     const moves = history.map((step, move) => {
       const desc = move ?
         'Move {' + step.x + ',' + step.y + '}' :
         'Game Start!';
+        //Bolds the currently selected move in the move list...
+        //I think there's a better way to do this.
+      if(this.state.stepNumber === move){
+        return (
+          <li key={move}>
+          <a href="#" onClick={() => this.jumpTo(move)}><b>{desc}</b></a>
+        </li>
+        )
+      }
+      //If it's not the current list
       return (
         <li key={move}>
           <a href="#" onClick={() => this.jumpTo(move)}>{desc}</a>
