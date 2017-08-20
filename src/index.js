@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 function Square(props) {
+  console.log(props);
   return (
     <button className="square" onClick={() => props.onClick()}>
       {props.value}
@@ -15,27 +16,28 @@ class Board extends React.Component {
     return <Square
       value={this.props.squares[i]}
       onClick={() => this.props.onClick(i)}
+      key={i}
     />;
+  }
+
+  createSquares() {
+    let rows = [];
+    for(var i = 0; i < 3; i++){
+      let squares = [];
+      for(var j = 0; j < 3; j++){
+        squares.push(this.renderSquare(3*i+j));
+      }
+      let rowID = i+10;
+      console.log("rowID: " + rowID);
+      rows.push(<div className="board-row" key={rowID.toString()}>{squares}</div>);
+    }
+    return rows;
   }
 
   render() {
     return (
       <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {this.createSquares()}
       </div>
     );
   }
@@ -117,6 +119,7 @@ class Game extends React.Component {
     } else {
       status = 'Next ' + (this.state.xIsNext ? 'X' : 'O');
     }
+    console.log(current.squares);
     return (
       <div className="game">
         <div className="game-board">
